@@ -5,6 +5,8 @@ import managementRoutes from "./management.js";
 import salesRoutes from "./sales.js";
 import router from './Auth.js';
 import products from './ProductRoute.js';
+import users from './users.js';
+import customer from './customers.js';
 
 const app=Router();
 
@@ -14,5 +16,7 @@ app.use("/management", managementRoutes);
 app.use("/sales", salesRoutes);
 app.use("/auth",router);
 app.use("/products",products);
+app.use("/users",users);
+app.use("/customer",customer);
 
 export default app;
