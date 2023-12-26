@@ -1,24 +1,30 @@
 
 .content-container {
   display: flex;
-  width: 40%;
+  width: 45%;
   justify-content: center;
   align-items: center;
   margin: auto;
   margin-top: 10%;
-
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
 }
 
 .image-container {
   flex: 1;
-  padding:10px;
+  padding-right: 10px;
 }
 
 .image-container img {
   width: 100%;
   height: auto;
+  border-radius: 10px;
 }
-
+h2{
+  color: black;
+  text-align: center;
+}
 .form-container {
   flex: 1;
   padding: 10px;
@@ -43,11 +49,11 @@ label {
 input {
   width: 100%;
   padding: 8px;
-  margin-top: 8px;
+  margin-top: 10px;
   border-radius: 10px;
 }
 
-button {
+.btn {
   background-color: #007bff;
   color: #fff;
   padding: 10px;

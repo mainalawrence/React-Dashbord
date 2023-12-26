@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { useMemo,useState,useEffect } from "react";
+import { useMemo,useState } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
@@ -56,7 +56,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           {
-            login?ElementView():<LoginPage/>
+            login?ElementView():<LoginPage setLogin={setLogin}/>
           }
         </ThemeProvider>
       </BrowserRouter>
