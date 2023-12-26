@@ -7,6 +7,7 @@ import router from './Auth.js';
 import products from './ProductRoute.js';
 import users from './users.js';
 import customer from './customers.js';
+import Transaction from './Transaction.js';
 
 const app=Router();
 
@@ -18,5 +19,6 @@ app.use("/auth",router);
 app.use("/products",products);
 app.use("/users",users);
 app.use("/customer",customer);
+app.use("/invoices",Transaction);
 
 export default app;

@@ -7,6 +7,8 @@ CREATE TABLE users(
     company varchar(20),
     role varchar(20),
     date timestamp,
+    avatar varchar(50),
+    visible int
 );
 insert into users values(
     'uid','name','email','0700000000','company','manager','date::now'

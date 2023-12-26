@@ -5,7 +5,8 @@ CREATE TABLE product VALUE(
     description: text,
     category: text,
     rating: int,
-    supply: int
+    supply: int,
+    visible:int
 ) ;
 
 

@@ -4,7 +4,8 @@ CREATE TABLE transaction(
    userId varchar(64),
    cost varchar(64),
    products varchar(64),
-   date timestamp
+   date timestamp,
+   visible int
 );
 
 insert into transaction values(

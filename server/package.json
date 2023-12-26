@@ -21,7 +21,11 @@
     "helmet": "^6.0.0",
     "mongoose": "^6.7.3",
     "morgan": "^1.10.0",
+    "node-cron": "^3.0.3",
     "nodemon": "^2.0.20",
     "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.10.9"
   }
 }

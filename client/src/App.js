@@ -21,7 +21,7 @@ import LoginPage from 'components/Login';
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
   const handleLogout=()=>{
     if(login){
       setLogin(false);

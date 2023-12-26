@@ -86,53 +86,78 @@ const Product = ({
 };
 
 const Products = () => {
-  const { data, isLoading } = useGetProductsQuery();
+  const { isLoading } = useGetProductsQuery();
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
-
+const [data, setData] = useState([
+ { _id:'456789333',
+  name:'name',
+  description:'description',
+  price:'200',
+  rating:5,
+  category:'',
+  supply:'',
+  stat:2,},
+  { _id:'456789333',
+  name:'name',
+  description:'description',
+  price:'200',
+  rating:5,
+  category:'',
+  supply:'',
+  stat:2,},
+  { _id:'456789333',
+  name:'name',
+  description:'description',
+  price:'200',
+  rating:5,
+  category:'',
+  supply:'',
+  stat:2,}
+])
   return (
     <Box m="1.5rem 2.5rem">
-      <Header title="PRODUCTS" subtitle="See your list of products." />
-      {data || !isLoading ? (
-        <Box
-          mt="20px"
-          display="grid"
-          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-          justifyContent="space-between"
-          rowGap="20px"
-          columnGap="1.33%"
-          sx={{
-            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-          }}
-        >
-          {data.map(
-            ({
-              _id,
-              name,
-              description,
-              price,
-              rating,
-              category,
-              supply,
-              stat,
-            }) => (
-              <Product
-                key={_id}
-                _id={_id}
-                name={name}
-                description={description}
-                price={price}
-                rating={rating}
-                category={category}
-                supply={supply}
-                stat={stat}
-              />
-            )
-          )}
-        </Box>
-      ) : (
-        <>Loading...</>
-      )}
-    </Box>
+    <Header title="PRODUCTS" subtitle="See your list of products." />
+    {data || !isLoading ? (
+      <Box
+        mt="20px"
+        display="grid"
+        gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+        justifyContent="space-between"
+        rowGap="20px"
+        columnGap="1.33%"
+        sx={{
+          "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+        }}
+      >
+        {data.map(
+          ({
+            _id,
+            name,
+            description,
+            price,
+            rating,
+            category,
+            supply,
+            stat,
+          }) => (
+            <Product
+              key={_id}
+              _id={_id}
+              name={name}
+              description={description}
+              price={price}
+              rating={rating}
+              category={category}
+              supply={supply}
+              stat={stat}
+            />
+          )
+        )}
+      </Box>
+    ) : (
+      <>Loading...</>
+    )}
+  </Box>
   );
 };
 
