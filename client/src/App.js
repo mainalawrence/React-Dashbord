@@ -1,6 +1,6 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-import { useMemo,useState } from "react";
+import { useMemo,useState,useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { themeSettings } from "theme";
@@ -16,16 +16,24 @@ import Monthly from "scenes/monthly";
 import Breakdown from "scenes/breakdown";
 import Admin from "scenes/admin";
 import Performance from "scenes/performance";
-import Login from 'components/Login';
+import LoginPage from 'components/Login';
 
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const [login, setLogin] = useState(true)
+  const [login, setLogin] = useState(false);
+  const handleLogout=()=>{
+    if(login){
+      setLogin(false);
+      localStorage.setItem("pos_token", "");
+    }
+  }
+  document.title="Home";
   const ElementView=()=>{
+
     return(
       <Routes>
-            <Route element={<Layout />}>
+            <Route element={<Layout  handleLogout={handleLogout} />}>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/products" element={<Products />} />
@@ -48,7 +56,7 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           {
-            login?ElementView():<Login/>
+            login?ElementView():<LoginPage/>
           }
         </ThemeProvider>
       </BrowserRouter>
