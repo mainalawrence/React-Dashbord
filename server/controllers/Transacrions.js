@@ -34,8 +34,8 @@ const createInvoice = async (req, res) => {
 
   try {
     const result = await db.query(
-      'INSERT INTO invoice (uid, invoice, userId, cost, products, date, visible) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [uid, invoice, userId, cost, products, date, visible]
+      'INSERT INTO invoice (uid, invoice, userId, cost, products, date, visible) VALUES ($1, $2, $3, $4, $5,CURRENT_TIMESTAMP, $6) RETURNING *',
+      [uid(64), invoice, userId, cost, products, visible]
     );
 
     res.status(201).json(result.rows[0]);

@@ -1,9 +1,12 @@
 import {Router} from 'express';
-import { login, signup } from '../controllers/AuthController.js';
+import {register,login} from '../controllers/AuthController.js';
 
-const router=Router();
+const router = Router();
 
-router.post('/login',login);
-router.post('/signup',signup);
+// Register a new user
+router.post('/register', register);
+// Login and generate JWT token
+router.post('/login', login);
+
 
 export default router;

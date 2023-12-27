@@ -1,8 +1,8 @@
 CREATE TABLE users(
     uid varchar(64),
     name varchar(15),
-    password varchar(15),
-    email varchar(20),
+    password varchar(64),
+    email varchar(100),
     phone varchar(10),
     company varchar(20),
     role varchar(20),

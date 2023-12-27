@@ -1,4 +1,5 @@
 import db from '../Database/dbConfig.js'
+import {uid} from 'uid';
 
 // Get all users
 const getUsers = async (req, res) => {
@@ -13,10 +14,10 @@ const getUsers = async (req, res) => {
 
 // Get a specific user by uid
 const getUser = async (req, res) => {
-  const { uid } = req.params;
+  const { id } = req.params;
 
   try {
-    const result = await db.query('SELECT * FROM users WHERE uid = $1 AND visible = 1', [uid]);
+    const result = await db.query('SELECT * FROM users WHERE uid = $1 AND visible = 1', [id]);
     if (result.rows.length === 0) {
       res.status(404).json({ error: 'User not found' });
     } else {
@@ -30,12 +31,13 @@ const getUser = async (req, res) => {
 
 // Create a new user
 const createUser = async (req, res) => {
-  const { uid, name, password, email, phone, company, role, date, visible } = req.body;
+  res.json(req.body)
+  const { name, password, email, phone, company, role, visible } = req.body;
 
   try {
     const result = await db.query(
-      'INSERT INTO users (uid, name, password, email, phone, company, role, date, visible) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
-      [uid, name, password, email, phone, company, role, date, visible]
+      'INSERT INTO users (uid, name, password, email, phone, company, role, date, visible) VALUES ($1, $2, $3, $4, $5, $6, $7,CURRENT_TIMESTAMP, $8) RETURNING *',
+      [uid(64), name, password, email, phone, company, role, visible]
     );
 
     res.status(201).json(result.rows[0]);
@@ -66,6 +68,7 @@ const updateUser = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 // Soft delete a user by setting visible to 0
 const softDeleteUser = async (req, res) => {
@@ -126,7 +129,7 @@ const changeUsersRole = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-  const saveAvatarFile = (file, uid) => {
+ const saveAvatarFile = (file, uid) => {
     const avatarDir = path.join(__dirname, '../avatars');
   
     // Create 'avatars' directory if it doesn't exist
@@ -158,16 +161,16 @@ const changeUsersRole = async (req, res) => {
   
   // Create a new user with avatar
   const createUserWithAvatar = async (req, res) => {
-    const { uid, name, password, email, phone, company, role, date, visible } = req.body;
+    res.json(req.file)
+    const { name, password, email, phone, company, role, date, visible } = JSON.parse(req.body.data);
     const avatarFile = req.file;
-  
-    try {
+    const id=uid(64)
+   try {
       // Save the avatar file and get the filename
-      const avatarFilename = avatarFile ? saveAvatarFile(avatarFile, uid) : null;
-  
+      const avatarFilename = avatarFile ? saveAvatarFile(avatarFile,id) : null;
       const result = await db.query(
-        'INSERT INTO users (uid, name, password, email, phone, company, role, date, visible, avatar) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *',
-        [uid, name, password, email, phone, company, role, date, visible, avatarFilename]
+        'INSERT INTO users (uid, name, password, email, phone, company, role, date, visible, avatar) VALUES ($1, $2, $3, $4, $5, $6, $7,CURRENT_TIMESTAMP, $9, $10) RETURNING *',
+        [id, name, password, email, phone, company, role, date, visible, avatarFilename]
       );
   
       res.status(201).json(result.rows[0]);
@@ -176,11 +179,11 @@ const changeUsersRole = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-  // Update a user's avatar
+
+// Update a user's avatar
 const updateAvatar = async (req, res) => {
     const { uid } = req.params;
     const newAvatarFile = req.file;
-  
     try {
       const result = await db.query('SELECT avatar FROM users WHERE uid = $1', [uid]);
   
