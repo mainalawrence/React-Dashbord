@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import  { NavLink } from "react-router-dom";
 import {
   LightModeOutlined,
   DarkModeOutlined,
@@ -30,7 +31,10 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen, handleLogout }) => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+    window.location("/settings")
+  };
   const handleClose = () =>{ 
     setAnchorEl(null);
     handleLogout();
@@ -72,11 +76,13 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen, handleLogout }) => {
               <LightModeOutlined sx={{ fontSize: "25px" }} />
             )}
           </IconButton>
-          <IconButton>
-            <SettingsOutlined sx={{ fontSize: "25px" }} />
-          </IconButton>
-
+          <NavLink to='/settings'>
+            <IconButton>
+              <SettingsOutlined sx={{ fontSize: "25px" }} />
+            </IconButton>
+          </NavLink>
           <FlexBetween>
+            
             <Button
               onClick={handleClick}
               sx={{

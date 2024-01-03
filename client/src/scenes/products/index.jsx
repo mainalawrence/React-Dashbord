@@ -10,7 +10,13 @@ import {
   Rating,
   useTheme,
   useMediaQuery,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
 } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import Header from "components/Header";
 import { useGetProductsQuery } from "state/api";
 
@@ -26,6 +32,31 @@ const Product = ({
 }) => {
   const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editFormData, setEditFormData] = useState({
+    // initialize the form data with existing values
+    name,
+    description,
+    price,
+  });
+    const handleEditClick = () => {
+      setIsEditing(true);
+      setIsExpanded(false);
+    };
+    const handleSaveEdit = () => {
+      // Perform the logic to save the edited data
+      // You can make an API call or update the state accordingly
+      console.log("Saving edited data:", editFormData);
+      setIsEditing(false);
+    };
+
+    const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setEditFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    };
 
   return (
     <Card
@@ -35,6 +66,7 @@ const Product = ({
         borderRadius: "0.55rem",
       }}
     >
+      
       <CardContent>
         <Typography
           sx={{ fontSize: 14 }}
@@ -82,6 +114,7 @@ const Product = ({
         </CardContent>
       </Collapse>
     </Card>
+
   );
 };
 
@@ -117,6 +150,15 @@ const [data, setData] = useState([
   return (
     <Box m="1.5rem 2.5rem">
     <Header title="PRODUCTS" subtitle="See your list of products." />
+    <Button
+          variant="primary"
+          size="small"
+          onClick={() => {
+       
+          }}
+        >
+          New Product
+        </Button>
     {data || !isLoading ? (
       <Box
         mt="20px"

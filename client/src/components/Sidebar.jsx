@@ -27,6 +27,7 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   PieChartOutlined,
+  PaymentOutlined
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -45,6 +46,10 @@ const navItems = [
   {
     text: "Products",
     icon: <ShoppingCartOutlined />,
+  },
+  {
+    text: "Invoice",
+    icon: <PaymentOutlined />,
   },
   {
     text: "Customers",
@@ -132,7 +137,7 @@ const Sidebar = ({
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
                   <Typography variant="h4" fontWeight="bold">
-                    ECOMVISION
+                    POSDAZZCODE
                   </Typography>
                 </Box>
                 {!isNonMobile && (
