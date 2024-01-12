@@ -7,25 +7,23 @@ import {
   Collapse,
   Button,
   Typography,
-  Rating,
   useTheme,
   useMediaQuery,
+  IconButton,
   Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  TextField,
+
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import Header from "components/Header";
 import { useGetProductsQuery } from "state/api";
+import FlexBetween from "components/FlexBetween";
+
 
 const Product = ({
   _id,
   name,
   description,
   price,
-  rating,
   category,
   supply,
   stat,
@@ -75,14 +73,17 @@ const Product = ({
         >
           {category}
         </Typography>
+        <FlexBetween>
         <Typography variant="h5" component="div">
           {name}
         </Typography>
+        <IconButton >
+           <EditIcon />
+        </IconButton>
+        </FlexBetween>
         <Typography sx={{ mb: "1.5rem" }} color={theme.palette.secondary[400]}>
-          ${Number(price).toFixed(2)}
+          ksh{Number(price).toFixed(2)}
         </Typography>
-        <Rating value={rating} readOnly />
-
         <Typography variant="body2">{description}</Typography>
       </CardContent>
       <CardActions>
@@ -91,7 +92,7 @@ const Product = ({
           size="small"
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          See More
+          {!isExpanded?"SEE MORE":"SEE LESS"}
         </Button>
       </CardActions>
       <Collapse
@@ -126,11 +127,10 @@ const [data, setData] = useState([
   name:'name',
   description:'description',
   price:'200',
-  rating:5,
   category:'',
   supply:'',
   stat:2,},
-  { _id:'456789333',
+  { _id:'4567893335',
   name:'name',
   description:'description',
   price:'200',
@@ -138,26 +138,52 @@ const [data, setData] = useState([
   category:'',
   supply:'',
   stat:2,},
-  { _id:'456789333',
+  { _id:'4567893334',
   name:'name',
   description:'description',
   price:'200',
-  rating:5,
   category:'',
   supply:'',
-  stat:2,}
+  stat:2,},
+  { _id:'4567893336',
+  name:'name',
+  description:'description',
+  price:'200',
+  category:'',
+  supply:'',
+  stat:2,},
+  { _id:'4567893337',
+  name:'name',
+  description:'description',
+  price:'200',
+  category:'',
+  supply:'',
+  stat:21,}
 ])
   return (
     <Box m="1.5rem 2.5rem">
     <Header title="PRODUCTS" subtitle="See your list of products." />
     <Button
-          variant="primary"
+          variant="secondary"
           size="small"
           onClick={() => {
-       
+return(
+  <Dialog>
+     <CardContent>
+          <Typography>id: {"_id"}</Typography>
+          <Typography>Supply Left: {"supply"}</Typography>
+          <Typography>
+            Yearly Sales This Year: {"stat.yearlySalesTotal"}
+          </Typography>
+          <Typography>
+            Yearly Units Sold This Year: {"stat.yearlyTotalSoldUnits"}
+          </Typography>
+        </CardContent>
+  </Dialog>
+);
           }}
         >
-          New Product
+           New Product
         </Button>
     {data || !isLoading ? (
       <Box
@@ -171,13 +197,13 @@ const [data, setData] = useState([
           "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
         }}
       >
+     
         {data.map(
           ({
             _id,
             name,
             description,
             price,
-            rating,
             category,
             supply,
             stat,
@@ -188,7 +214,6 @@ const [data, setData] = useState([
               name={name}
               description={description}
               price={price}
-              rating={rating}
               category={category}
               supply={supply}
               stat={stat}
