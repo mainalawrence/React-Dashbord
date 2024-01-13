@@ -102,9 +102,11 @@ const deleteProduct = async (req, res) => {
     }
   } catch (error) {
     console.error('Error deleting product:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res .status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+
 
 export{
   getProducts,
