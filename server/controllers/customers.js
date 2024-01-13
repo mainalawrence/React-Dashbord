@@ -108,15 +108,13 @@ const softDeleteCustomer = async (req, res) => {
 
 const totalCustomers = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM customer count');
+    const result = await db.query('SELECT COUNT(*) FROM customer');
 
-    if (result.rows.length === 0) {
-      res.status(404).json({ error: 'Customer not found' });
-    } else {
-      res.json({ message: 'Customer deleted successfully' });
-    }
+    // The count will be in result.rows[0].count
+    const totalCount = result.rows[0].count;
+    res.json({ totalCustomers: totalCount });
   } catch (error) {
-    console.error('Error deleting customer:', error);
+    console.error('Error fetching total customers:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -128,5 +126,5 @@ export{
   updateCustomer,
   softDeleteCustomer,
   deleteCustomer,
-  totalCustomers
+  totalCustomers,
 };

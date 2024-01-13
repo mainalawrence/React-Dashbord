@@ -106,6 +106,64 @@ const deleteInvoice = async (req, res) => {
   }
 };
 
+// Get monthly sales percentage change
+const getMonthlySalesChange = async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT
+        EXTRACT(YEAR FROM date) AS year,
+        EXTRACT(MONTH FROM date) AS month,
+        (SUM(cost) - LAG(SUM(cost), 1) OVER (ORDER BY EXTRACT(YEAR FROM date), EXTRACT(MONTH FROM date))) / LAG(SUM(cost), 1) OVER (ORDER BY EXTRACT(YEAR FROM date), EXTRACT(MONTH FROM date)) * 100 AS percentage_change
+      FROM invoice
+      GROUP BY year, month
+      ORDER BY year, month;
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error getting monthly sales change:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// Get yearly sales percentage change
+const getYearlySalesChange = async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT
+        EXTRACT(YEAR FROM date) AS year,
+        (SUM(cost) - LAG(SUM(cost), 1) OVER (ORDER BY EXTRACT(YEAR FROM date))) / LAG(SUM(cost), 1) OVER (ORDER BY EXTRACT(YEAR FROM date)) * 100 AS percentage_change
+      FROM invoice
+      GROUP BY year
+      ORDER BY year;
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error getting yearly sales change:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// Get daily sales percentage change
+const getDailySalesChange = async (req, res) => {
+  try {
+    const result = await db.query(`
+      SELECT
+        date::date AS day,
+        (SUM(cost) - LAG(SUM(cost), 1) OVER (ORDER BY date::date)) / LAG(SUM(cost), 1) OVER (ORDER BY date::date) * 100 AS percentage_change
+      FROM invoice
+      GROUP BY day
+      ORDER BY day;
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error getting daily sales change:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 export{
   getInvoices,
   getInvoice,
@@ -113,4 +171,7 @@ export{
   updateInvoice,
   softDeleteInvoice,
   deleteInvoice,
+  getMonthlySalesChange,
+  getYearlySalesChange,
+  getDailySalesChange,
 };

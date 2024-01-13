@@ -1,11 +1,10 @@
 import sqlConnection from '../Database/dbConfig.js';
 
 try {
-    const res = sqlConnection.connect((res) => {
-        console.log(`database connected `);
-    })
+    await sqlConnection.connect();
+    console.log('Database connected');
 } catch (error) {
-    console.log("Error :" + error.message);
+    console.error('Error connecting to the database:', error.message);
 }
 
 export default sqlConnection;
