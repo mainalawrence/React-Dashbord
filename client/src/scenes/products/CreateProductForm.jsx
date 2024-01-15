@@ -1,70 +1,79 @@
-import React from 'react'
+// ProductUpdateForm.js
 
-export default function CreateProductForm() {
-    const [updatedProduct, setUpdatedProduct] = useState(product);
+import React, { useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Box,
+  TextField,
+} from "@mui/material";
 
-    useEffect(() => {
-      setUpdatedProduct(product);
-    }, [product]);
+const ProductCreateForm = ({ open, onClose, onUpdate }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    description: "",
+    price: "",
+    // Add other fields as needed
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleUpdate = () => {
+    // Call the onUpdate function with the updated data
   
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setUpdatedProduct((prevProduct) => ({
-        ...prevProduct,
-        [name]: value,
-      }));
-    };
-  
-    const handleUpdate = () => {
-      // Validate and perform the update
-      // Call the onUpdate function to update the product in the parent component
-      onUpdate(updatedProduct);
-    };
-  
-    return (
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Typography variant="h6">Update Product</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            name="name"
-            label="Product Name"
-            variant="outlined"
-            fullWidth
-            value={updatedProduct.name}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            name="price"
-            type="number"
-            label="Price"
-            variant="outlined"
-            fullWidth
-            value={updatedProduct.price}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            name="description"
-            label="Description"
-            variant="outlined"
-            fullWidth
-            multiline
-            rows={4}
-            value={updatedProduct.description}
-            onChange={handleInputChange}
-          />
-        </Grid>
+    onClose();
+  };
+
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <Box m="1.5rem 2.5rem">
+      <DialogTitle>Create Product</DialogTitle>
+      <DialogContent>
+        <TextField
+          label="Name"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Description"
+          name="description"
+          value={formData.description}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+        <TextField
+          label="Price"
+          name="price"
+          value={formData.price}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
         {/* Add other fields as needed */}
-        <Grid item xs={12}>
-          <Button variant="contained" color="primary" onClick={handleUpdate}>
-            Update Product
-          </Button>
-        </Grid>
-      </Grid>
-    );
-}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleUpdate} variant="contained" color="primary">
+          Create
+        </Button>
+      </DialogActions>
+      </Box>
+
+    </Dialog>
+  );
+};
+
+export default ProductCreateForm;

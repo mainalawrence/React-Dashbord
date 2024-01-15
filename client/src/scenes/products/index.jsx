@@ -10,14 +10,14 @@ import {
   useTheme,
   useMediaQuery,
   IconButton,
-  Dialog,
 
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import Header from "components/Header";
 import { useGetProductsQuery } from "state/api";
 import FlexBetween from "components/FlexBetween";
-
+import ProductUpdateForm from "./ProductUpdateForm";
+import CreateProductForm from "./CreateProductForm";
 
 const Product = ({
   _id,
@@ -32,29 +32,13 @@ const Product = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editFormData, setEditFormData] = useState({
-    // initialize the form data with existing values
     name,
     description,
     price,
   });
-    const handleEditClick = () => {
-      setIsEditing(true);
-      setIsExpanded(false);
-    };
-    const handleSaveEdit = () => {
-      // Perform the logic to save the edited data
-      // You can make an API call or update the state accordingly
-      console.log("Saving edited data:", editFormData);
-      setIsEditing(false);
-    };
+ 
 
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setEditFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    };
+   
 
   return (
     <Card
@@ -122,6 +106,34 @@ const Product = ({
 const Products = () => {
   const { isLoading } = useGetProductsQuery();
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleEditClick = (product) => {
+    setSelectedProduct(product);
+    setIsUpdateModalOpen(true);
+  };
+
+  const handleNewProductClick =() => {
+    setIsCreateModalOpen(true);
+  }
+
+  const handleUpdate = (updatedData) => {
+    // Logic to update the product, e.g., make an API call
+    console.log("Updating product:", updatedData);
+    // Update the state with the new data
+    setData((prevData) =>
+      prevData.map((product) =>
+        product._id === selectedProduct._id ? { ...product, ...updatedData } : product
+      )
+    );
+    // Close the modal
+    setIsUpdateModalOpen(false);
+    // setSelectedProduct(null);
+  };
+
+
 const [data, setData] = useState([
  { _id:'456789333',
   name:'name',
@@ -137,28 +149,7 @@ const [data, setData] = useState([
   rating:5,
   category:'',
   supply:'',
-  stat:2,},
-  { _id:'4567893334',
-  name:'name',
-  description:'description',
-  price:'200',
-  category:'',
-  supply:'',
-  stat:2,},
-  { _id:'4567893336',
-  name:'name',
-  description:'description',
-  price:'200',
-  category:'',
-  supply:'',
-  stat:2,},
-  { _id:'4567893337',
-  name:'name',
-  description:'description',
-  price:'200',
-  category:'',
-  supply:'',
-  stat:21,}
+  stat:2,}
 ])
   return (
     <Box m="1.5rem 2.5rem">
@@ -167,20 +158,7 @@ const [data, setData] = useState([
           variant="secondary"
           size="small"
           onClick={() => {
-return(
-  <Dialog>
-     <CardContent>
-          <Typography>id: {"_id"}</Typography>
-          <Typography>Supply Left: {"supply"}</Typography>
-          <Typography>
-            Yearly Sales This Year: {"stat.yearlySalesTotal"}
-          </Typography>
-          <Typography>
-            Yearly Units Sold This Year: {"stat.yearlyTotalSoldUnits"}
-          </Typography>
-        </CardContent>
-  </Dialog>
-);
+            handleNewProductClick();
           }}
         >
            New Product
@@ -217,9 +195,20 @@ return(
               category={category}
               supply={supply}
               stat={stat}
+              onEditClick={() => handleEditClick({ _id, name, description, price, category, supply, stat })}
             />
           )
         )}
+        <ProductUpdateForm
+            open={isUpdateModalOpen}
+            onClose={() => setIsUpdateModalOpen(false)}
+            onUpdate={handleUpdate}
+          />
+           <CreateProductForm
+            open={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+            onUpdate={handleUpdate}
+          />
       </Box>
     ) : (
       <>Loading...</>
