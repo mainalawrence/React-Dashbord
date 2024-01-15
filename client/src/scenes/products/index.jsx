@@ -27,19 +27,10 @@ const Product = ({
   category,
   supply,
   stat,
+  onEditClick
 }) => {
   const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editFormData, setEditFormData] = useState({
-    name,
-    description,
-    price,
-  });
- 
-
-   
-
   return (
     <Card
       sx={{
@@ -62,7 +53,10 @@ const Product = ({
           {name}
         </Typography>
         <IconButton >
-           <EditIcon />
+           <EditIcon
+           onClick={onEditClick}
+           />
+           
         </IconButton>
         </FlexBetween>
         <Typography sx={{ mb: "1.5rem" }} color={theme.palette.secondary[400]}>
@@ -203,6 +197,7 @@ const [data, setData] = useState([
             open={isUpdateModalOpen}
             onClose={() => setIsUpdateModalOpen(false)}
             onUpdate={handleUpdate}
+            products={selectedProduct}
           />
            <CreateProductForm
             open={isCreateModalOpen}

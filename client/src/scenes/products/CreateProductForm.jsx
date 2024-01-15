@@ -8,7 +8,7 @@ import {
   DialogActions,
   Button,
   Box,
-  TextField,
+  TextField
 } from "@mui/material";
 
 const ProductCreateForm = ({ open, onClose, onUpdate }) => {

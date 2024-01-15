@@ -1,6 +1,6 @@
 // ProductUpdateForm.js
 
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -10,15 +10,24 @@ import {
   TextField,
 } from "@mui/material";
 
-const ProductUpdateForm = ({ open, onClose, onUpdate }) => {
+const ProductUpdateForm = ({ open, onClose, onUpdate,products }) => {
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: "",
     // Add other fields as needed
   });
+  useEffect(() => {
+    if(products!==null){
+      setFormData(products);
 
+    }
+   },[products]);
+
+ 
   const handleInputChange = (e) => {
+
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
@@ -37,6 +46,7 @@ const ProductUpdateForm = ({ open, onClose, onUpdate }) => {
     });
     onClose();
   };
+
 
   return (
     <Dialog open={open} onClose={onClose}>
