@@ -21,7 +21,6 @@ const ProductUpdateForm = ({ open, onClose, onUpdate,products }) => {
   useEffect(() => {
     if(products!==null){
       setFormData(products);
-
     }
    },[products]);
 

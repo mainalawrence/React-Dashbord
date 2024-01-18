@@ -1,5 +1,5 @@
-import React, { useMemo,useState } from "react";
-import { Box, useTheme } from "@mui/material";
+import React, { } from "react";
+import { Box } from "@mui/material";
 import Header from "components/Header";
 // import { ResponsiveLine } from "@nivo/line";
 // import { useGetSalesQuery } from "state/api";
@@ -7,21 +7,6 @@ import Invoice1 from './invoice1'; // Adjust the path ba
 import CompactInvoice from './CompactInvoice'; 
 import EnhancedInvoice from './EnhancedInvoice'; 
 const CreateInvoice = () => {
-    const [editedPrice, setEditedPrice] = useState(100); // Initial price, you can set it based on your requirement
-
-    // Sample product details (replace with your actual product details)
-    const productDetails = {
-      name: 'Sample Product',
-      price: editedPrice,
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      category: 'Electronics',
-      rating: 4,
-      supply: 50,
-    };
-  
-    const handlePriceChange = (event) => {
-      setEditedPrice(event.target.value);
-    };
     const sampleInvoiceData = {
         customerName: 'John Doe',
         customerAddress: '456 Avenue, City',

@@ -1,7 +1,8 @@
-import React from "react";
+import React,{useState} from "react";
 import { Box, useTheme,Button } from "@mui/material";
 import { useGetCustomersQuery } from "state/api";
 import Header from "components/Header";
+import CreateCustomerForm from "./CreateCustomerForm"
 import { DataGrid } from "@mui/x-data-grid";
 
 const Customers = () => {
@@ -49,6 +50,12 @@ const Customers = () => {
       flex: 0.5,
     },
   ];
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+
+  const handleNewCustomerClick =() => {
+    setIsCreateModalOpen(true);
+  }
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -57,7 +64,7 @@ const Customers = () => {
           variant="primary"
           size="small"
           onClick={() => {
-       
+            handleNewCustomerClick();
           }}
         >
           New Customer
@@ -97,6 +104,11 @@ const Customers = () => {
           columns={columns}
         />
       </Box>
+      <CreateCustomerForm
+            open={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+            onUpdate={handleNewCustomerClick}
+          />
     </Box>
   );
 };
