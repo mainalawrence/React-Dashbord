@@ -44,12 +44,12 @@ const navItems = [
     icon: null,
   },
   {
-    text: "Products",
-    icon: <ShoppingCartOutlined />,
+    text: "Sales",
+    icon: <PaymentOutlined />,
   },
   {
-    text: "Invoice",
-    icon: <PaymentOutlined />,
+    text: "Products",
+    icon: <ShoppingCartOutlined />,
   },
   {
     text: "Customers",
