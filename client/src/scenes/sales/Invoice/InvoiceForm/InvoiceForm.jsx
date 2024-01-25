@@ -1,13 +1,13 @@
 // src/sales/invoice/InvoiceForm.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   MenuItem,
   Button,
   Box,
   Container,
+  CardContent,
   Typography,
-  CardContent
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -17,21 +17,25 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 const InvoiceForm = () => {
-  // Sample data for contacts dropdown
-  const contacts = [
-    { id: 1, name: "Contact 1" },
-    { id: 2, name: "Contact 2" },
-    { id: 3, name: "Contact 3" },
-  ];
 
-  // Sample data for currencies dropdown
-  const currencies = [
-    { code: "KES", name: "Kenyan Shilling" },
-    { code: "USD", name: "US Dollar" },
-    { code: "EUR", name: "Euro" },
-    // Add more currencies as needed
-  ];
 
+  useEffect(() => {
+    setContacts([
+      { id: 1, name: "Contact 1" },
+      { id: 2, name: "Contact 2" },
+      { id: 3, name: "Contact 3" },
+    ]);
+    setCurrency([
+  { code: "KES", name: "Kenyan Shilling" },
+  { code: "USD", name: "US Dollar" },
+  { code: "EUR", name: "Euro" },
+]);
+setLastInvoice("123456")
+  
+  }, [])
+  
+  const [currency, setCurrency] = useState([])
+  const [contacts, setContacts] = useState([])
   const [selectedContact, setSelectedContact] = useState("");
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [lastInvoice, setLastInvoice] = useState("");
@@ -74,12 +78,10 @@ const InvoiceForm = () => {
               onChange={(e) => setInvoiceNumber(e.target.value)}
               fullWidth
             />
-            <TextField
-              label="Last Invoice"
-              value={lastInvoice}
-              onChange={(e) => setLastInvoice(e.target.value)}
-              fullWidth
-            />
+            <Typography align="right">
+           Last Invoice: {lastInvoice}
+            </Typography>
+     
           </Box>
 
           <Box display="flex" flexDirection="column" gap={2}>
@@ -129,7 +131,7 @@ const InvoiceForm = () => {
               onChange={(e) => setSelectedCurrency(e.target.value)}
               fullWidth
             >
-              {currencies.map((currency) => (
+              {currency.map((currency) => (
                 <MenuItem key={currency.code} value={currency.code}>
                   {currency.name}
                 </MenuItem>

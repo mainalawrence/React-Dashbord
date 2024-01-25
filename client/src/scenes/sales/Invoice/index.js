@@ -6,7 +6,7 @@ import Header from "components/Header";
 import Invoice1 from './invoice1'; // Adjust the path ba
 import CompactInvoice from './CompactInvoice'; 
 import EnhancedInvoice from './EnhancedInvoice'; 
-import InvoiceForm from './InvoiceForm/InvoiceForm'; 
+import InvoiceForm2 from './InvoiceForm/InvoiceForm2'; 
 
 const CreateInvoice = () => {
     const sampleInvoiceData = {
@@ -23,13 +23,11 @@ const CreateInvoice = () => {
       };
   
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="Create Invoice" subtitle="" />
+    <Box >
       {/* <Invoice1 invoiceData={sampleInvoiceData} />
       <CompactInvoice invoiceData={sampleInvoiceData}/>
       <EnhancedInvoice invoiceData={sampleInvoiceData}/> */}
-    <InvoiceForm/>
-      
+    <InvoiceForm2/>
 
     </Box>
   );
