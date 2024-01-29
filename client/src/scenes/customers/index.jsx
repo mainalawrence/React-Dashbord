@@ -35,13 +35,13 @@ const Customers = () => {
       },
     },
     {
-      field: "country",
-      headerName: "Country",
+      field: "location",
+      headerName: "Location",
       flex: 0.4,
     },
     {
-      field: "occupation",
-      headerName: "Occupation",
+      field: "company",
+      headerName: "Company",
       flex: 1,
     },
     {

@@ -4,6 +4,7 @@ CREATE TABLE customer(
     email varchar(20),
     phone varchar(10),
     company varchar(20),
+    location varchar(20),
     role varchar(20),
     visible int,
     date timestamp,

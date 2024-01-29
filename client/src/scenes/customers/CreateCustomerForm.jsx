@@ -14,9 +14,12 @@ import FlexBetween from "components/FlexBetween";
 
 const CreateCustomerForm = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
+    email:"", 
+    phone:"",
     name: "",
-    description: "",
-    price: "",
+    location: "",
+    company:"", 
+    role:"",
     // Add other fields as needed
   });
 
@@ -67,17 +70,17 @@ const CreateCustomerForm = ({ open, onClose }) => {
         </Box>
         <Box>
          <TextField
-          label="country"
-          name="country"
-          value={formData.country}
+          label="location"
+          name="location"
+          value={formData.location}
           onChange={handleInputChange}
           fullWidth
           margin="normal"
         />
             <TextField
-          label="occupation"
-          name="occupation"
-          value={formData.occupation}
+          label="company"
+          name="company"
+          value={formData.company}
           onChange={handleInputChange}
           fullWidth
           margin="normal"

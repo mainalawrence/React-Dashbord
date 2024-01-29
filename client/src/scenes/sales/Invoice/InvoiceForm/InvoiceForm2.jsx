@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import {
     Paper,
     Typography,
@@ -6,23 +6,18 @@ import {
   TextField,
   Select, 
   MenuItem,
-    Table,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody,
     Link,
     Box,
     ListItemIcon,
   } from '@mui/material';
   import AddIcon from '@mui/icons-material/Add';
   import FlexBetween from "components/FlexBetween";
-  import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
   import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
   import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
   import { DatePicker } from '@mui/x-date-pickers/DatePicker';
   import dayjs from 'dayjs';
+import CreateCustomerForm from 'scenes/customers/CreateCustomerForm';
+import ItemsForm from '../ItemsForm';
 
 const InvoiceForm2=() =>{
   const [selectedIssuedDate, setSelectedIssuedDate] = useState(dayjs(new Date()));
@@ -30,10 +25,23 @@ const InvoiceForm2=() =>{
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [lastInvoice, setLastInvoice] = useState("123456765");
   const [invoiceNote, setInvoiceNote] = useState("It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
+
+  useEffect(() => {
+    setLastInvoice("inv2029");
+ 
+  }, [])
+  
   const handleSelectCustomerChange = (event) => {
     console.log(event.target.value); // Handle the selected value here
   };
+
+
+
+  const handleNewCustomerClick =() => {
+    setIsCreateModalOpen(true);
+  }
   return (
     <div>
         <Paper  elevation={2}
@@ -161,14 +169,28 @@ const InvoiceForm2=() =>{
               <Select onChange={handleSelectCustomerChange} sx={{width: '60%' ,height:'10%'}}  >
                 <MenuItem value="" sx={{ color:"green",'&:hover': { backgroundColor: 'lightgreen'}}}>
                   <ListItemIcon><AddIcon  sx={{color:'green'}}/></ListItemIcon>
-                  <Link color="inherit" sx={{ fontWeight: 'bold',textDecoration: 'none'}}>
+                  <Link color="inherit" sx={{ fontWeight: 'bold',textDecoration: 'none'}}  
+                      onClick={() => {
+                      handleNewCustomerClick();
+                  }}>
                     <Typography>Create a new customer</Typography>
+
                   </Link>
                 </MenuItem>
-                <MenuItem value={10}>Customer 1</MenuItem>
-                <MenuItem value={20}>Customer 2</MenuItem>
-                <MenuItem value={30}>Customer 3</MenuItem>
-                {/* Add more MenuItem components for each customer */}
+                <MenuItem value={10}>lawrence 1</MenuItem>
+                <MenuItem value={20}>maina 2</MenuItem>
+                <MenuItem value={3}>faith 3</MenuItem>
+                <MenuItem value={4}>zack 3</MenuItem>
+                <MenuItem value={5}>James 3</MenuItem>
+                <MenuItem value={6}>charles 3</MenuItem>
+                <MenuItem value={61}>charles 2</MenuItem>
+                <MenuItem value={62}>charles 4</MenuItem>
+                <MenuItem value={7}>mareck 3</MenuItem>
+                <MenuItem value={8}>kong 3</MenuItem>
+                <MenuItem value={9}>judas 3</MenuItem>
+                <MenuItem value={10}>pam 3</MenuItem>
+                
+
               </Select>
             </Typography>
            </Box>
@@ -177,7 +199,6 @@ const InvoiceForm2=() =>{
               flex:0.5,
               display: 'flex',
               flexDirection: 'column', // Ensures components stack vertically
-          
               alignItems: 'center', // Centers content vertically
               paddingRight:'8%'
             }}
@@ -223,7 +244,7 @@ const InvoiceForm2=() =>{
         </Box>
         
         <div>
-            form to add 
+           <ItemsForm/>
         </div>
 {/* Taxes */}
         <Box>
@@ -263,13 +284,18 @@ const InvoiceForm2=() =>{
             <Grid item>
               <TextField
                 label="Note"
-                
+                type='text'
                 value={invoiceNote}
                 onChange={(e) => setInvoiceNote(e.target.value)}
                 fullWidth
               />
             </Grid>
         </Box>
+        <CreateCustomerForm
+            open={isCreateModalOpen}
+            onClose={() => setIsCreateModalOpen(false)}
+            onUpdate={handleNewCustomerClick}
+          />
 
     </div>
   )
