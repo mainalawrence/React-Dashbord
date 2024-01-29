@@ -16,6 +16,10 @@ const ProductCreateForm = ({ open, onClose, onUpdate }) => {
     name: "",
     description: "",
     price: "",
+    description:"",
+    category:"",
+    supply:""
+
     // Add other fields as needed
   });
 
@@ -58,6 +62,23 @@ const ProductCreateForm = ({ open, onClose, onUpdate }) => {
           label="Price"
           name="price"
           value={formData.price}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        />
+         <TextField
+          label="category"
+          name="category"
+          value={formData.category}
+          onChange={handleInputChange}
+          fullWidth
+          margin="normal"
+        /> 
+        <TextField
+          label="supply"
+          name="supply"
+          type="number"
+          value={formData.supply}
           onChange={handleInputChange}
           fullWidth
           margin="normal"
