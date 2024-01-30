@@ -4,7 +4,7 @@ CREATE TABLE transaction(
    userId varchar(64),
    cost varchar(64),
    products varchar(64),
-   date timestamp,
+   date timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
    visible int
 );
 

@@ -1,10 +1,18 @@
 import db from '../Database/dbConfig.js'
-
+import {uid} from "uid";
+import {getProductSalesStats} from "./Transactions.js";
 // Get all products
 const getProducts = async (req, res) => {
   try {
     const result = await db.query('SELECT * FROM product WHERE visible = 1');
-    res.json(result.rows);
+    const items = result.rows;
+    
+    const newData = await Promise.all(items.map(async (item) => {
+      const newItem = { ...item };
+      newItem.stat = await getProductSalesStats(item.uid);
+      return newItem;
+    }));
+    res.json(newData);
   } catch (error) {
     console.error('Error getting products:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -30,12 +38,12 @@ const getProduct = async (req, res) => {
 
 // Create a new product
 const createProduct = async (req, res) => {
-  const { uid, name, price, description, category, rating, supply, visible } = req.body;
+  const { name, price, description, category, supply } = req.body;
 
   try {
     const result = await db.query(
-      'INSERT INTO product (uid, name, price, description, category, rating, supply, visible) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [uid, name, price, description, category, rating, supply, visible]
+      'INSERT INTO product (uid, name, price, description, category, supply, visible) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [uid(32), name, price, description, category, supply, 1]
     );
 
     res.status(201).json(result.rows[0]);
@@ -48,12 +56,12 @@ const createProduct = async (req, res) => {
 // Update a product
 const updateProduct = async (req, res) => {
   const { uid } = req.params;
-  const { name, price, description, category, rating, supply, visible } = req.body;
+  const { name, price, description, category, supply,  } = req.body;
 
   try {
     const result = await db.query(
-      'UPDATE product SET name = $1, price = $2, description = $3, category = $4, rating = $5, supply = $6, visible = $7 WHERE uid = $8 RETURNING *',
-      [name, price, description, category, rating, supply, visible, uid]
+      'UPDATE product SET name = $1, price = $2, description = $3, category = $4, supply = $5, visible = $6 WHERE uid = $7 RETURNING *',
+      [name, price, description, category, supply, 1, uid]
     );
 
     if (result.rows.length === 0) {

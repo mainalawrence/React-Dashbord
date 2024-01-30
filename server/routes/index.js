@@ -11,7 +11,7 @@ import Transaction from './Transaction.js';
 
 const app=Router();
 
-app.use("/client", clientRoutes);
+app.use("/client", clientRoutes);//not connected
 app.use("/general", generalRoutes);
 app.use("/management", managementRoutes);
 app.use("/sales", salesRoutes);

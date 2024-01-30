@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Box,
   Card,
@@ -18,10 +18,11 @@ import { useGetProductsQuery } from "state/api";
 import FlexBetween from "components/FlexBetween";
 import ProductUpdateForm from "./ProductUpdateForm";
 import CreateProductForm from "./CreateProductForm";
+import axiosInstance from "state/Axios";
 
 
 const Product = ({
-  _id,
+  uid,
   name,
   description,
   price,
@@ -83,13 +84,15 @@ const Product = ({
         }}
       >
         <CardContent>
-          <Typography>id: {_id}</Typography>
+          <Typography>id: {uid}</Typography>
           <Typography>Supply Left: {supply}</Typography>
           <Typography>
-            Yearly Sales This Year: {stat.yearlySalesTotal}
+            Yearly Sales This Year: {stat.totalPriceSold}
+            {/*  */}
           </Typography>
           <Typography>
-            Yearly Units Sold This Year: {stat.yearlyTotalSoldUnits}
+            Yearly Units Sold This Year:{stat.totalUnitsSold}
+            {/* {stat.yearlyTotalSoldUnits} */}
           </Typography>
         </CardContent>
       </Collapse>
@@ -120,32 +123,30 @@ const Products = () => {
     // Update the state with the new data
     setData((prevData) =>
       prevData.map((product) =>
-        product._id === selectedProduct._id ? { ...product, ...updatedData } : product
+        product.uid === selectedProduct.uid ? { ...product, ...updatedData } : product
       )
     );
     // Close the modal
     setIsUpdateModalOpen(false);
     // setSelectedProduct(null);
   };
+  const [data, setData] = useState([])
+  const [productStats, setProductStats] = useState({})
 
 
-const [data, setData] = useState([
- { _id:'456789333',
-  name:'name',
-  description:'description',
-  price:'200',
-  category:'',
-  supply:'',
-  stat:2,},
-  { _id:'4567893335',
-  name:'name',
-  description:'description',
-  price:'200',
-  rating:5,
-  category:'',
-  supply:'',
-  stat:2,}
-])
+ 
+useEffect(() => {
+  axiosInstance.get("products")
+  .then((response) => {
+    setData(response.data)
+    console.log(response.data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+ 
+}, [])
+
   return (
     <Box m="1.5rem 2.5rem">
     <Header title="PRODUCTS" subtitle="See your list of products." />
@@ -173,7 +174,7 @@ const [data, setData] = useState([
      
         {data.map(
           ({
-            _id,
+            uid,
             name,
             description,
             price,
@@ -182,15 +183,15 @@ const [data, setData] = useState([
             stat,
           }) => (
             <Product
-              key={_id}
-              _id={_id}
+              key={uid}
+              uid={uid}
               name={name}
               description={description}
               price={price}
               category={category}
               supply={supply}
               stat={stat}
-              onEditClick={() => handleEditClick({ _id, name, description, price, category, supply, stat })}
+              onEditClick={() => handleEditClick({ uid, name, description, price, category, supply, stat })}
             />
           )
         )}

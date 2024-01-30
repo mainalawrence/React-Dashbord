@@ -4,7 +4,8 @@ CREATE TABLE product VALUE(
     description: text,
     category: text,
     supply: int,
-    visible:int
+    visible:int,
+    date timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 ) ;
 
 

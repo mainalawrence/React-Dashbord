@@ -15,6 +15,6 @@ router.get('/:id',getProduct);
 router.post('/',createProduct);
 router.delete('/',deleteProduct);
 router.put('/',softDeleteProduct);
-router.put('/',updateProduct);
+router.put('/:uid',updateProduct);
 
 export default router;

@@ -10,15 +10,16 @@ import {
   Box,
   TextField
 } from "@mui/material";
+import axiosInstance from "state/Axios";
 
-const ProductCreateForm = ({ open, onClose, onUpdate }) => {
+const ProductCreateForm = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
-    description: "",
     price: "",
     description:"",
     category:"",
     supply:""
+  
 
     // Add other fields as needed
   });
@@ -31,10 +32,17 @@ const ProductCreateForm = ({ open, onClose, onUpdate }) => {
     }));
   };
 
-  const handleUpdate = () => {
+  const handleCreate = () => {
     // Call the onUpdate function with the updated data
-  
+  axiosInstance.post("products",formData)
+  .then((response) => {
+    console.log('Response:', response.data);
     onClose();
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+  
   };
 
   return (
@@ -87,7 +95,7 @@ const ProductCreateForm = ({ open, onClose, onUpdate }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleUpdate} variant="contained" color="primary">
+        <Button onClick={handleCreate} variant="contained" color="primary">
           Create
         </Button>
       </DialogActions>

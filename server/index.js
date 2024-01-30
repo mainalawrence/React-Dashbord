@@ -25,6 +25,9 @@ app.use(morgan("common"));
 // app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 app.use("/",route);
+app.use("/test",(req,res)=>{
+  res.send("hello world")
+});
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 9000;

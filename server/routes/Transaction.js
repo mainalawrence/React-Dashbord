@@ -7,8 +7,9 @@ getInvoices,
   updateInvoice,
   softDeleteInvoice,
   deleteInvoice,
+  getProductSalesStats,
 }
-from '../controllers/Transacrions.js';
+from '../controllers/Transactions.js';
 
 // Routes for invoices
 router.get('/', getInvoices);
@@ -17,5 +18,6 @@ router.post('/', createInvoice);
 router.put('/:uid', updateInvoice);
 router.patch('/:uid', softDeleteInvoice);
 router.delete('/del/:uid', deleteInvoice);
+router.get('/stats/:uid',getProductSalesStats);
 
 export default router;

@@ -1,9 +1,10 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { Box, useTheme,Button } from "@mui/material";
 import { useGetCustomersQuery } from "state/api";
 import Header from "components/Header";
 import CreateCustomerForm from "./CreateCustomerForm"
 import { DataGrid } from "@mui/x-data-grid";
+import axiosInstance from "state/Axios";
 
 const Customers = () => {
   const theme = useTheme();
@@ -12,7 +13,7 @@ const Customers = () => {
 
   const columns = [
     {
-      field: "_id",
+      field: "uid",
       headerName: "ID",
       flex: 1,
     },
@@ -27,7 +28,7 @@ const Customers = () => {
       flex: 1,
     },
     {
-      field: "phoneNumber",
+      field: "phone",
       headerName: "Phone Number",
       flex: 0.5,
       renderCell: (params) => {
@@ -51,7 +52,7 @@ const Customers = () => {
     },
   ];
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
+ 
 
   const handleNewCustomerClick =() => {
     setIsCreateModalOpen(true);
@@ -99,7 +100,7 @@ const Customers = () => {
       >
         <DataGrid
           loading={isLoading || !data}
-          getRowId={(row) => row._id}
+          getRowId={(row) => row.uid}
           rows={data || []}
           columns={columns}
         />

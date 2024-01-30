@@ -37,7 +37,7 @@ const createUser = async (req, res) => {
   try {
     const result = await db.query(
       'INSERT INTO users (uid, name, password, email, phone, company, role, date, visible) VALUES ($1, $2, $3, $4, $5, $6, $7,CURRENT_TIMESTAMP, $8) RETURNING *',
-      [uid(64), name, password, email, phone, company, role, visible]
+      [uid(32), name, password, email, phone, company, role, visible]
     );
 
     res.status(201).json(result.rows[0]);

@@ -11,6 +11,7 @@ import {
   TextField
 } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
+import axiosInstance from "state/Axios";
 
 const CreateCustomerForm = ({ open, onClose }) => {
   const [formData, setFormData] = useState({
@@ -33,6 +34,10 @@ const CreateCustomerForm = ({ open, onClose }) => {
 
   const handleUpdate = () => {
     // Call the onUpdate function with the updated data
+    axiosInstance.post("/customer",formData)
+    .then((response) => {
+      console.log('Response:', response.data);
+    })
     onClose();
   };
 
@@ -60,7 +65,7 @@ const CreateCustomerForm = ({ open, onClose }) => {
           margin="normal"
         />
          <TextField
-          label="phoneNumber"
+          label="phone"
           name="phoneNumber"
           value={formData.phoneNumber}
           onChange={handleInputChange}

@@ -1,5 +1,5 @@
 import db from '../Database/dbConfig.js'
-
+import {uid} from 'uid'
 // Get all customers
 const getCustomers = async (req, res) => {
   try {
@@ -30,12 +30,12 @@ const getCustomer = async (req, res) => {
 
 // Create a new customer
  const createCustomer = async (req, res) => {
-  const { uid, name, email, phone, company, role, visible, date } = req.body;
-
+  const { name, email, phone,phoneNumber, company, role } = req.body;
+  console.log(req.body);
   try {
     const result = await db.query(
-      'INSERT INTO customer (uid, name, email, phone, company, role, visible, date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *',
-      [uid, name, email, phone, company, role, visible, date]
+      'INSERT INTO customer (uid, name, email, phone, company, role, visible) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [uid(32), name, email, phoneNumber, company, role, 1]
     );
 
     res.status(201).json(result.rows[0]);
@@ -52,8 +52,8 @@ const updateCustomer = async (req, res) => {
 
   try {
     const result = await db.query(
-      'UPDATE customer SET name = $1, email = $2, phone = $3, company = $4, role = $5, visible = $6, date = $7 WHERE uid = $8 RETURNING *',
-      [name, email, phone, company, role, visible, date, uid]
+      'UPDATE customer SET name = $1, email = $2, phone = $3, company = $4, role = $5, visible = $6 WHERE uid = $7 RETURNING *',
+      [name, email, phone, company, role, visible, uid]
     );
 
     if (result.rows.length === 0) {

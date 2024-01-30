@@ -9,13 +9,17 @@ import {
   Button,
   TextField,
 } from "@mui/material";
+import axiosInstance from "state/Axios";
 
 const ProductUpdateForm = ({ open, onClose, onUpdate,products }) => {
 
   const [formData, setFormData] = useState({
+    uid:"",
     name: "",
-    description: "",
     price: "",
+    description:"",
+    category:"",
+    supply:""
     // Add other fields as needed
   });
   useEffect(() => {
@@ -37,6 +41,14 @@ const ProductUpdateForm = ({ open, onClose, onUpdate,products }) => {
   const handleUpdate = () => {
     // Call the onUpdate function with the updated data
     onUpdate(formData);
+    axiosInstance.put(`products/${formData.uid}`,formData)
+    .then((response) => {
+      console.log('Response:', response.data);
+      onClose();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
     // Reset the form data and close the modal
     setFormData({
       name: "",

@@ -6,7 +6,7 @@ CREATE TABLE users(
     phone varchar(10),
     company varchar(20),
     role varchar(20),
-    date timestamp,
+    date timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     avatar varchar(50),
     visible int
 );

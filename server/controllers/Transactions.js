@@ -164,6 +164,48 @@ const getDailySalesChange = async (req, res) => {
   }
 };
 
+
+const getProductSalesStats = async (uid) => {
+  // const { uid } = req.params; // Assuming product UID is passed as a URL parameter
+  
+  try {
+    // Get the current year
+    const currentYear = new Date().getFullYear();
+
+    // Query to retrieve the number of units and total price sold for the product within the current year
+    const result = await db.query(
+      `SELECT 
+        SUM(quantity) AS totalUnitsSold,
+        SUM(cost) AS totalPriceSold
+      FROM invoice
+      WHERE uid = $1
+      AND EXTRACT(YEAR FROM date) = $2`,
+      [uid, currentYear]
+    );
+
+    // If no sales data found, return 404 error
+    if (!result.rows[0]) {
+      console.log({ error: 'No sales data found for the product in the current year' });
+    }
+
+    // Extract the total units sold and total price sold from the query result
+    const { totalUnitsSold, totalPriceSold } = result.rows[0];
+
+    // Return the sales statistics
+    return( {
+      uid,
+      totalUnitsSold,
+      totalPriceSold
+    });
+  } catch (error) {
+    console.error('Error retrieving product sales statistics:', error);
+    
+  }
+};
+
+
+
+
 export{
   getInvoices,
   getInvoice,
@@ -174,4 +216,5 @@ export{
   getMonthlySalesChange,
   getYearlySalesChange,
   getDailySalesChange,
+  getProductSalesStats
 };
