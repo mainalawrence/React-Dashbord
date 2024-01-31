@@ -282,12 +282,12 @@ const InvoiceForm2=() =>{
               </Typography>
             </Grid>
             <Grid item>
-              <TextField
-                label="Note"
-                type='text'
+              <textarea
                 value={invoiceNote}
                 onChange={(e) => setInvoiceNote(e.target.value)}
-                fullWidth
+                rows={12} // Specify the number of rows you want to display
+                cols={50} // Specify the number of columns
+                style={{ resize: 'none' }} // Optional: Prevent resizing of the textarea
               />
             </Grid>
         </Box>

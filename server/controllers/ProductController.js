@@ -14,6 +14,7 @@ const getProducts = async (req, res) => {
     }));
     res.json(newData);
   } catch (error) {
+
     console.error('Error getting products:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
