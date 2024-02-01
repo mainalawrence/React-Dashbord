@@ -1,23 +1,15 @@
 import React,{useState,useEffect} from 'react'
-import {
-    Paper,
-    Typography,
-    Grid,
-  TextField,
-  Select, 
-  MenuItem,
-    Link,
-    Box,
-    ListItemIcon,
-  } from '@mui/material';
-  import AddIcon from '@mui/icons-material/Add';
-  import FlexBetween from "components/FlexBetween";
-  import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-  import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-  import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-  import dayjs from 'dayjs';
+import {Paper,Typography,Grid,Button,TextField,Select,MenuItem,Link,Box,ListItemIcon} from '@mui/material';
+
+import AddIcon from '@mui/icons-material/Add';
+import FlexBetween from "components/FlexBetween";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from 'dayjs';
 import CreateCustomerForm from 'scenes/customers/CreateCustomerForm';
 import ItemsForm from '../ItemsForm';
+import axiosInstance from 'state/Axios';
 
 const InvoiceForm2=() =>{
   const [selectedIssuedDate, setSelectedIssuedDate] = useState(dayjs(new Date()));
@@ -26,25 +18,44 @@ const InvoiceForm2=() =>{
   const [lastInvoice, setLastInvoice] = useState("123456765");
   const [invoiceNote, setInvoiceNote] = useState("It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-
+  const [subTotal, setSubTotal] = useState(0);
+  const [discount, setDiscount] = useState(0);
+  const [tax, setTax] = useState(0); 
+  const [total, setTotal] = useState(0)
+  const [data, setData] =useState([]);
+  const [customers, setCustomers] = useState({})
 
   useEffect(() => {
     setLastInvoice("inv2029");
+    axiosInstance.get("/customer")
+    .then((response) => {
+      setData(response.data);
+      console.log(response.data);
+    })
  
   }, [])
   
   const handleSelectCustomerChange = (event) => {
+    setCustomers(event.target.value)
     console.log(event.target.value); // Handle the selected value here
   };
 
+  const handlePrint = () => {
+  
 
+      window.print();
+
+  };
 
   const handleNewCustomerClick =() => {
     setIsCreateModalOpen(true);
   }
   return (
-    <div>
-        <Paper  elevation={2}
+    <div  id='invoice-content'>
+      <Button className="print-button" onClick={handlePrint} variant="contained" color="primary">
+  Print Invoice
+</Button>
+        <Paper elevation={2}
          sx={{
           backgroundColor: 'rgba(0, 0, 0, 0.1)', // Set the background color to gray
           padding: '20px', // Add padding to the Paper component
@@ -177,23 +188,23 @@ const InvoiceForm2=() =>{
 
                   </Link>
                 </MenuItem>
-                <MenuItem value={10}>lawrence 1</MenuItem>
-                <MenuItem value={20}>maina 2</MenuItem>
-                <MenuItem value={3}>faith 3</MenuItem>
-                <MenuItem value={4}>zack 3</MenuItem>
-                <MenuItem value={5}>James 3</MenuItem>
-                <MenuItem value={6}>charles 3</MenuItem>
-                <MenuItem value={61}>charles 2</MenuItem>
-                <MenuItem value={62}>charles 4</MenuItem>
-                <MenuItem value={7}>mareck 3</MenuItem>
-                <MenuItem value={8}>kong 3</MenuItem>
-                <MenuItem value={9}>judas 3</MenuItem>
-                <MenuItem value={10}>pam 3</MenuItem>
-                
-
+                {
+                   data.map((item)=>{
+                    return <MenuItem value={item}>{item.name}</MenuItem>
+                 })
+                }
               </Select>
             </Typography>
+            <Box sx={{
+              marginTop:'5%'
+            }}>
+              <Typography>{customers.name}</Typography>
+              <Typography>{customers.company}</Typography>
+              <Typography>{customers.phone}</Typography>
+              <Typography>{customers.email}</Typography>
+            </Box> 
            </Box>
+         
            <Box
             sx={{
               flex:0.5,
@@ -206,72 +217,89 @@ const InvoiceForm2=() =>{
             <Typography sx={{width:'40%'}}>
               <h3 > Bill To:</h3>
             </Typography>
-            <Box
-            
-            >
+            <Box>
+            <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid item>
+              <Typography> <label>Company Name:</label></Typography>
+            </Grid>
+            <Grid item>Techput</Grid>
+          </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
-              <Typography> <label>Total Due:</label></Typography>
+              <Typography> <label>Account Name :</label></Typography>
             </Grid>
-            <Grid item>$12,110.55</Grid>
+            <Grid item>Techput Technologies</Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
               <Typography> <label>Bank name:</label></Typography>
             </Grid>
-            <Grid item>American Bank</Grid>
+            <Grid item> Equity Bank</Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
-              <Typography> <label>Country:</label></Typography>
+              <Typography> <label>Account No:</label></Typography>
             </Grid>
-            <Grid item>United States</Grid>
+            <Grid item>0260183098772</Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
-              <Typography> <label>IBAN:</label></Typography>
+              <Typography> <label>Branch Name:</label></Typography>
             </Grid>
-            <Grid item>ETD95476213874685</Grid>
+            <Grid item>Kimathi Branch </Grid>
+          </Grid>
+          <hr/>
+          <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid item>
+              <Typography> <label>Mpesa  Paybill:</label></Typography>
+            </Grid>
+            <Grid item>247247</Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
-              <Typography> <label>SWIFT code:</label></Typography>
+              <Typography> <label> Account no:</label></Typography>
             </Grid>
-            <Grid item>BR91905</Grid>
+            <Grid item>655380</Grid>
           </Grid>
             </Box>
            </Box>
         </Box>
         
         <div>
-           <ItemsForm/>
+           <ItemsForm
+           setDiscount={setDiscount}
+           setSubTotal={setSubTotal}
+           setTotal={setTotal}
+           setTax={setTax}
+           />
         </div>
 {/* Taxes */}
-        <Box>
+        <Box bx={{backgroundColor:"green"}}>
+        
         <Grid  container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
               <Typography> <label>Subtotal:</label></Typography>
             </Grid>
-            <Grid item>$1800</Grid>
+            <Grid item>{subTotal}</Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
               <Typography> <label>Discount:</label></Typography>
             </Grid>
-            <Grid item>$28</Grid>
+            <Grid item>{discount}</Grid>
           </Grid>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
               <Typography> <label>Tax:</label></Typography>
             </Grid>
-            <Grid item>16%</Grid>
+            <Grid item>{tax}%</Grid>
           </Grid>
           <hr/>
           <Grid container spacing={2} alignItems="center" justifyContent="center">
             <Grid item>
               <Typography> <label>Total:</label></Typography>
             </Grid>
-            <Grid item>$1690</Grid>
+            <Grid item>ksh{total}</Grid>
           </Grid>
         </Box>
         {/* Notes */}

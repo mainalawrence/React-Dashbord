@@ -7,11 +7,12 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
+import MoneyTextField from 'components/MoneyTextField';
 
 
-const ItemsForm = ({}) => {
+const ItemsForm = ({setTax,setDiscount,setSubTotal,setTotal}) => {
   const [items, setItems] = useState([
-    { productName: '', description: '', quantity: 1, unitCost: 0, discount: 0 }
+    { productName: '', description: '', quantity: 1, unitCost: 0, discount: 0,price:1 }
   ]);
 
   const handleAddItem = () => {
@@ -31,16 +32,33 @@ const ItemsForm = ({}) => {
       const quantity = parseFloat(newItems[index].quantity);
       const unitCost = parseFloat(newItems[index].unitCost);
       const discount = parseFloat(newItems[index].discount);
-
       newItems[index].price = (quantity * unitCost) - discount;
     }
     setItems(newItems);
+    handleSubTotal();
+
   };
+  const handleSubTotal=()=>{
+    let tax=0;
+    let discount=0;
+    let subtotal=0;
+    let grandtotal=0;
+    items.map((item)=>{
+      discount+=parseFloat(item.discount)
+      subtotal+=item.price
+    })
+    
+    setDiscount(discount);
+    setSubTotal(subtotal);
+    setTotal(subtotal)
+    console.log(discount);
+
+  }
 
   // Implement similar functions for other TextField fields
 // spoofing trades 
   return (
-    <Box sx={{ marginTop: '2%', gap: 2 }}>
+    <Box  sx={{ marginTop: '2%', gap: 2 }}>
       <Box sx={{ display: "flex", gap: 14 }}>
         <Typography>Product Name</Typography>
         <Typography>Description</Typography>
@@ -71,13 +89,13 @@ const ItemsForm = ({}) => {
             placeholder="Quantity"
           />
           <TextField
-            type="text"
+            type="number"
             value={item.unitCost}
             onChange={(e) => handleProductNameChange(index,'unitCost', e.target.value)}
             placeholder="Unit Cost"
           />
           <TextField
-            type="text"
+            type="number"
             value={item.discount}
             onChange={(e) => handleProductNameChange(index,'discount', e.target.value)}
             placeholder="Discount"
