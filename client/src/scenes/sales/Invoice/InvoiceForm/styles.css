@@ -1,5 +1,32 @@
 @media print {
-    .print-button {
-      display: none;
-    }
+  @page {
+    size: auto; /* Reset the page size */
+    margin: 0; /* Reset the page margins */
   }
+  @page :first {
+    margin: 0; /* Reset the top margin */
+  }
+  body * {
+    visibility: hidden !important;
+  }
+  .print-btn{
+    visibility: hidden !important;
+    display: none !important;
+  }
+  .print-container,
+  .print-container * {
+    visibility: visible !important;
+   
+  }
+  .print-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: #f5f5f5 !important;
+    color: #090909 !important;
+    padding: 20px !important;
+    border: 2px solid #ccc !important;
+    margin: 1%;
+   
+  }
+}

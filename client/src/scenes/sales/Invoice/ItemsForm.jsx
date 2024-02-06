@@ -7,8 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoneyTextField from 'components/MoneyTextField';
-
+import "../Invoice/InvoiceForm/styles.css";
 
 const ItemsForm = ({setTax,setDiscount,setSubTotal,setTotal}) => {
   const [items, setItems] = useState([
@@ -58,7 +57,7 @@ const ItemsForm = ({setTax,setDiscount,setSubTotal,setTotal}) => {
   // Implement similar functions for other TextField fields
 // spoofing trades 
   return (
-    <Box  sx={{ marginTop: '2%', gap: 2 }}>
+    <Box className="" sx={{ marginTop: '2%', gap: 2 }}>
       <Box sx={{ display: "flex", gap: 14 }}>
         <Typography>Product Name</Typography>
         <Typography>Description</Typography>
@@ -109,7 +108,7 @@ const ItemsForm = ({setTax,setDiscount,setSubTotal,setTotal}) => {
           <IconButton onClick={() => handleRemoveItem(index)}><DeleteIcon /></IconButton>
         </Box>
       ))}
-      <Button onClick={handleAddItem}>Add Item</Button>
+      <Button class="print-btn" onClick={handleAddItem}>Add Item</Button>
     </Box>
   );
 };

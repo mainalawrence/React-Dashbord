@@ -8,6 +8,7 @@ import products from './ProductRoute.js';
 import users from './users.js';
 import customer from './customers.js';
 import Transaction from './Transaction.js';
+import companyInfo from './companyRoute.js';
 
 const app=Router();
 
@@ -20,5 +21,6 @@ app.use("/products",products);
 app.use("/users",users);
 app.use("/customer",customer);
 app.use("/invoices",Transaction);
+app.use("/company",companyInfo);
 
 export default app;

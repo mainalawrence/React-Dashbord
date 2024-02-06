@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import CreateCustomerForm from 'scenes/customers/CreateCustomerForm';
 import ItemsForm from '../ItemsForm';
 import axiosInstance from 'state/Axios';
+import "./styles.css";
 
 const InvoiceForm2=() =>{
   const [selectedIssuedDate, setSelectedIssuedDate] = useState(dayjs(new Date()));
@@ -24,16 +25,50 @@ const InvoiceForm2=() =>{
   const [total, setTotal] = useState(0)
   const [data, setData] =useState([]);
   const [customers, setCustomers] = useState({})
+  const [companyInformation, setCompanyInformation] = useState(
+    {
+        "uid": "yhjiokpl[lkjh]",
+        "name": "TechPut",
+        "mobile": [
+            ""
+        ],
+        "address": "your street",
+        "logo": "techput.png",
+        "email": "email.com",
+        "bank": {
+            "name": " Bank Name",
+            "branch": " Branch Name",
+            "accountnumber": "1234567898765"
+        },
+        "mobilemoney": [
+            {
+                "type": "Mpesa",
+                "account": "account number",
+                "paybill": "paybill number"
+            }
+        ],
+        "date": "2024-02-05T18:57:07.354Z"
+    }
+)
 
   useEffect(() => {
-    setLastInvoice("inv2029");
+    axiosInstance.get("/invoices/last")
+    .then((response) => {
+      setLastInvoice(response.data[0]);
+    });
     axiosInstance.get("/customer")
     .then((response) => {
       setData(response.data);
-      console.log(response.data);
-    })
+    });
+    axiosInstance.get("/company")
+    .then((response) => {
+      setCompanyInformation(response.data[0]);
+    });
  
   }, [])
+
+
+  
   
   const handleSelectCustomerChange = (event) => {
     setCustomers(event.target.value)
@@ -41,18 +76,15 @@ const InvoiceForm2=() =>{
   };
 
   const handlePrint = () => {
-  
-
-      window.print();
-
+        window.print();
   };
 
   const handleNewCustomerClick =() => {
     setIsCreateModalOpen(true);
   }
   return (
-    <div  id='invoice-content'>
-      <Button className="print-button" onClick={handlePrint} variant="contained" color="primary">
+    <div  className='print-container' id='invoice-content'>
+      <Button className="print-btn" onClick={handlePrint} variant="contained" color="primary">
   Print Invoice
 </Button>
         <Paper elevation={2}
@@ -78,9 +110,10 @@ const InvoiceForm2=() =>{
             { paddingTop: '10%'}
            }
         >
-            <Typography variant="h5">Your Company Name</Typography>
-            <Typography>123 Street, City</Typography>
-            <Typography>Email:mainalawrence32@email.com</Typography>
+          
+            <Typography variant="h5">{companyInformation.name}</Typography>
+            <Typography>companyInformation.address</Typography>
+            <Typography>Email:{companyInformation.email}</Typography>
         </Grid>
         </Box>
         <Box
@@ -177,7 +210,7 @@ const InvoiceForm2=() =>{
            >
            <Typography sx={{display:'flex',flexDirection:'column'}}>
               <label>Invoice To:</label>
-              <Select onChange={handleSelectCustomerChange} sx={{width: '60%' ,height:'10%'}}  >
+              <Select className='print-btn' onChange={handleSelectCustomerChange} sx={{width: '60%' ,height:'10%'}}  >
                 <MenuItem value="" sx={{ color:"green",'&:hover': { backgroundColor: 'lightgreen'}}}>
                   <ListItemIcon><AddIcon  sx={{color:'green'}}/></ListItemIcon>
                   <Link color="inherit" sx={{ fontWeight: 'bold',textDecoration: 'none'}}  
@@ -219,88 +252,63 @@ const InvoiceForm2=() =>{
             </Typography>
             <Box>
             <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Company Name:</label></Typography>
-            </Grid>
-            <Grid item>Techput</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Account Name :</label></Typography>
-            </Grid>
-            <Grid item>Techput Technologies</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Bank name:</label></Typography>
-            </Grid>
-            <Grid item> Equity Bank</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Account No:</label></Typography>
-            </Grid>
-            <Grid item>0260183098772</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Branch Name:</label></Typography>
-            </Grid>
-            <Grid item>Kimathi Branch </Grid>
-          </Grid>
-          <hr/>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Mpesa  Paybill:</label></Typography>
-            </Grid>
-            <Grid item>247247</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label> Account no:</label></Typography>
-            </Grid>
-            <Grid item>655380</Grid>
-          </Grid>
+                <Grid item>
+                      <Typography> <label>Company Name:</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.name}</Grid>
+                     </Grid>
+                    <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography> <label>Account Name :</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.bank.name}</Grid>
+                  </Grid>
+                  <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography> <label>Bank name:</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.bank.name}</Grid>
+                  </Grid>
+                  <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography> <label>Account No:</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.bank.accountnumber}</Grid>
+                  </Grid>
+                  <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography> <label>Branch Name:</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.bank.branch}</Grid>
+                  </Grid>
+                  <hr/>
+                  <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography> <label>Mpesa  Paybill:</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.mobilemoney.paybill}</Grid>
+                  </Grid>
+                  <Grid container spacing={2} alignItems="center" justifyContent="center">
+                    <Grid item>
+                      <Typography> <label> Account no:</label></Typography>
+                    </Grid>
+                    <Grid item>{companyInformation.mobilemoney.account}</Grid>
+                </Grid>    
             </Box>
-           </Box>
-        </Box>
-        
-        <div>
-           <ItemsForm
-           setDiscount={setDiscount}
-           setSubTotal={setSubTotal}
-           setTotal={setTotal}
-           setTax={setTax}
-           />
-        </div>
-{/* Taxes */}
-        <Box bx={{backgroundColor:"green"}}>
-        
-        <Grid  container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Subtotal:</label></Typography>
-            </Grid>
-            <Grid item>{subTotal}</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Discount:</label></Typography>
-            </Grid>
-            <Grid item>{discount}</Grid>
-          </Grid>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Tax:</label></Typography>
-            </Grid>
-            <Grid item>{tax}%</Grid>
-          </Grid>
-          <hr/>
-          <Grid container spacing={2} alignItems="center" justifyContent="center">
-            <Grid item>
-              <Typography> <label>Total:</label></Typography>
-            </Grid>
-            <Grid item>ksh{total}</Grid>
-          </Grid>
+            </Box>
+          </Box>
+          
+          <div className=''>
+            <ItemsForm
+            setDiscount={setDiscount}
+            setSubTotal={setSubTotal}
+            setTotal={setTotal}
+            setTax={setTax}
+            />
+          </div>
+  {/* Taxes */}
+          <Box bx={{backgroundColor:"green"}}>
+          
         </Box>
         {/* Notes */}
         <Box>
@@ -315,7 +323,7 @@ const InvoiceForm2=() =>{
                 onChange={(e) => setInvoiceNote(e.target.value)}
                 rows={12} // Specify the number of rows you want to display
                 cols={50} // Specify the number of columns
-                style={{ resize: 'none' }} // Optional: Prevent resizing of the textarea
+                style={{ resize: 'none',width:'100% !important' }} // Optional: Prevent resizing of the textarea
               />
             </Grid>
         </Box>

@@ -47,9 +47,28 @@ CREATE TABLE users (
     password VARCHAR(64),
     email VARCHAR(20),
     phone VARCHAR(10),
-    company VARCHAR(20),
     role VARCHAR(20),
     date timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     visible INT
 );
+
+--Table for Company details
+
+CREATE TABLE company(
+    uid VARCHAR(64) PRIMARY KEY,
+    name VARCHAR(150),
+    mobile jsonb,
+    address VARCHAR(150),
+    logo varchar(100),
+    email VARCHAR(150), 
+    bank jsonb,
+    mobilemoney  jsonb,
+    date timestamp WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+--table for invoice
+ insert into company(uid,name,mobile,address,logo,email,bank,mobilemoney)
+  VALUES('yhjiokpl[lkjh]','TechPut','["0740938029"]'::JSONB,'kimathi str, bazaa','techput.png','mainalawrence32@gmail.com','{"name":"Equity Bank","accountnumber":"1234567898765","branch":"Kimathi Branch"}'::JSONB,'[{"type":"Mpesa","paybill":"254254","account":"12345678765"}]'::JSONB
+ );
+
 

@@ -27,6 +27,21 @@ const getInvoice = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+const getLastInvoice = async (req, res) => {
+  const { uid } = req.params;
+
+  try {
+    const result = await db.query('SELECT * FROM invoices ORDER BY invoice_number DESC LIMIT 1');
+    if (result.rows.length === 0) {
+      res.status(404).json({ error: 'Invoice not found' });
+    } else {
+      res.json(result.rows[0]);
+    }
+  } catch (error) {
+    console.error('Error getting invoice:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 // Create a new invoice
 const createInvoice = async (req, res) => {
@@ -216,5 +231,6 @@ export{
   getMonthlySalesChange,
   getYearlySalesChange,
   getDailySalesChange,
-  getProductSalesStats
+  getProductSalesStats,
+  getLastInvoice
 };
