@@ -1,14 +1,14 @@
 import React, { } from "react";
 import { Box } from "@mui/material";
 
-import InvoiceForm2 from './InvoiceForm/InvoiceForm2'; 
+import InvoiceForm from './InvoiceForm/InvoiceForm';
 
 const CreateInvoice = () => {
 
-  
+
   return (
     <Box >
-    <InvoiceForm2/>
+      <InvoiceForm />
     </Box>
   );
 };
