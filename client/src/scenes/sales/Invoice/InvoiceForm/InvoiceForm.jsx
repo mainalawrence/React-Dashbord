@@ -83,6 +83,7 @@ const InvoiceForm = () => {
   }
   return (
     <div className='print-container' id='invoice-content'>
+      <button onClick={handlePrint}>print</button>
       <Paper elevation={2}
         sx={{
           backgroundColor: 'rgba(0, 0, 0, 0.1)', // Set the background color to gray
@@ -309,10 +310,11 @@ const InvoiceForm = () => {
         <Grid item>
           <textarea
             value={invoiceNote}
+
             onChange={(e) => setInvoiceNote(e.target.value)}
-            rows={12} // Specify the number of rows you want to display
-            cols={50} // Specify the number of columns
-            style={{ resize: 'none', width: '100% !important' }} // Optional: Prevent resizing of the textarea
+            rows={10} // Specify the number of rows you want to display
+            cols={100} // Specify the number of columns
+            style={{ width: '100% !important' }} // Optional: Prevent resizing of the textarea
           />
         </Grid>
       </Box>
